@@ -1,0 +1,12 @@
+# Normalize line endings: LF in the repository regardless of platform.
+* text=auto eol=lf
+
+# Binary-ish artifacts that must never be rewritten.
+*.png binary
+*.ico binary
+*.wav binary
+*.fms binary
+
+# Generated files (also gitignored).
+dist/** linguist-generated=true
+bun.lock linguist-generated=true

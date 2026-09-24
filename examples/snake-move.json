@@ -1,0 +1,42 @@
+{
+  "name": "Snake Move",
+  "author": "famistudio-mcp CLI demo",
+  "patternLength": 32,
+  "noteLength": 4,
+  "instruments": [
+    {
+      "name": "Blip",
+      "volume": [15, 14, 12, 10, 8, 6, 4, 2, 0],
+      "dutyCycle": [2]
+    }
+  ],
+  "channels": [
+    {
+      "channel": "Square1",
+      "notes": [
+        { "time": 0, "note": "C4", "duration": 4 },
+        { "time": 4, "note": "E4", "duration": 4 },
+        { "time": 8, "note": "G4", "duration": 4, "volume": 12 },
+        { "time": 12, "note": "C5", "duration": 4, "effects": { "vibrato": 194 } },
+        { "time": 16, "note": "stop" }
+      ]
+    },
+    {
+      "channel": "Triangle",
+      "notes": [
+        { "time": 0, "note": "C1", "duration": 16 },
+        { "time": 16, "note": "G0", "duration": 16 }
+      ]
+    },
+    {
+      "channel": "Noise",
+      "notes": [
+        [{ "note": "C4", "duration": 2 }, null, null, null],
+        null,
+        null,
+        null,
+        [{ "note": "C4", "duration": 2 }, null, null, null]
+      ]
+    }
+  ]
+}

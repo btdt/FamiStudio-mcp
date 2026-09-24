@@ -1,0 +1,57 @@
+{
+  "name": "famistudio-mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server for FamiStudio: generate, inspect, validate and export NES .fms projects from plain JSON.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "famistudio-mcp": "dist/index.js",
+    "famistudio-mcp-cli": "dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./core": "./dist/core/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "famistudio",
+    "nes",
+    "chiptune",
+    "fms",
+    "2a03",
+    "music",
+    "godot"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test \"test/**/*.test.mjs\"",
+    "verify": "node scripts/verify.mjs",
+    "oracle": "node scripts/oracle.mjs",
+    "pitch": "node scripts/pitch-probe.mjs",
+    "prepare": "node scripts/build.mjs",
+    "prepublishOnly": "node scripts/build.mjs && node --test \"test/**/*.test.mjs\" && node scripts/verify.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.7.2"
+  }
+}

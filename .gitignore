@@ -1,0 +1,30 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Scratch space used by tests and by the MCP server for generated artifacts
+.tmp/
+out/
+tmp/
+coverage/
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+
+# Generated audio/projects are never committed
+*.wav
+*.mp3
+*.ogg
+*.nsf
+tmp-*.fms
+tmp-*.txt
+
+# Intermediates left by `famistudio-mcp-cli verify`
+.verify-*
