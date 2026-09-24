@@ -61,7 +61,7 @@ Artifacts (`dist/`) are generated. Never edit them by hand, never commit them.
 
 ## 2. Commands
 
-Verified on Windows with Node 24 and bun 1.4.2; CI runs the same steps on Node 18/20/22.
+CI runs the same steps on Node 18, 20 and 22.
 
 **bun is this project's package manager.** `bun.lock` is the committed lockfile and CI
 installs with `bun install --frozen-lockfile`, so run `bun install`. Do not commit a
@@ -76,7 +76,7 @@ genuinely required by end users installing the published tarball.
 | `npm run build` | esbuild bundle -> `dist/`. **Required before `npm test`.** |
 | `npm test` | `node --test` — 48 tests, no FamiStudio required. |
 | `npm run build:types` | Emit `.d.ts` declarations alongside `dist/`. |
-| `npm run verify` | End-to-end: compile a spec, payload-round-trip real `.fms` files, then drive FamiStudio text + WAV export. |
+| `npm run verify` | End-to-end: compile a spec, optionally payload-round-trip real `.fms` files (`--fms-dir`), then drive FamiStudio text + WAV export. |
 | `npm run oracle` | Payload-identical round trip over FamiStudio's own demo projects. |
 | `npm run pitch` | Pitch-detection accuracy on synthetic square/pulse/sine/triangle tones. |
 | `npm pack --dry-run` | Check the published tarball contents. |
@@ -101,9 +101,10 @@ npm run oracle -- --dir "<dir>" --limit 50
   `dist/core/index.js` and `test/mcp.test.mjs` spawns `dist/index.js`. Always
   `npm run build` before `npm test`, or you will test stale output. (`npm run
   prepublishOnly` chains build -> test -> verify for this reason.)
-- `npm run verify` defaults `--fms-dir` to `D:\BANANA!! Assets`. Pass `--fms-dir`
-  explicitly, or it fails with "sample directory not found". Artifacts land in
-  `--out` (default `<tmp>/famistudio-mcp-verify`).
+- `npm run verify` has **no default `--fms-dir`**: without it the real-project round trip
+  is skipped and the run still passes. Point it at a directory of version-19 `.fms` files
+  to actually exercise that step. Artifacts land in `--out` (default
+  `<tmp>/famistudio-mcp-verify`).
 - `npm run oracle` defaults `--dir` to `C:\Program Files\FamiStudio\Demo Songs`.
   Most files there were written by older FamiStudio releases; the oracle reports those as
   *skipped* and only asserts on version-19 files, so it is safe to point at any directory.
@@ -305,11 +306,12 @@ round trip mismatches.
 
 ---
 
-## 9. Environment notes for this checkout
+## 9. Project environment
 
-- Windows. FamiStudio 4.5.3 is installed at
-  `C:\Program Files\FamiStudio\FamiStudio.exe` and is auto-discovered; `FAMISTUDIO_EXE`
-  is normally unset.
-- Verified with Node 24.20.0 and bun 1.4.2; the published bundle targets Node >= 18.
+- FamiStudio is discovered from its stock install locations and `PATH`
+  (`candidateExecutablePaths()` in `src/core/famistudio.ts`), so `FAMISTUDIO_EXE` is only
+  needed for a portable build, a custom location, or pinning one of several versions.
+- The project is developed with bun (`bun.lock` is the committed lockfile). The published
+  bundle targets Node >= 18; CI covers 18, 20 and 22.
 - Remote: `https://github.com/btdt/FamiStudio-mcp`, default branch `main`. CI
-  (`.github/workflows/ci.yml`) runs on every push and pull request across Node 18/20/22.
+  (`.github/workflows/ci.yml`) runs on every push and pull request.

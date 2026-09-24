@@ -7,8 +7,10 @@
  *
  * Steps performed:
  *   1. Compile the bundled sample song spec and assert structural invariants.
- *   2. Decode -> re-encode every `.fms` in the sample directory and require a
- *      BYTE IDENTICAL result (this is the real proof the format is right).
+ *   2. If `--fms-dir` was given, decode -> re-encode every `.fms` in it and require a
+ *      BYTE IDENTICAL payload (this is the real proof the format is right). Skipped when
+ *      no directory is given: there is no portable default, and the check needs
+ *      version-19 projects to mean anything.
  *   3. If FamiStudio is available: round-trip each generated project through
  *      `famistudio-txt-export` and check for the known desync symptoms
  *      (Tuning="-1", VolumeDb="NaN", SongCount=0).
@@ -27,7 +29,7 @@ const argOf = (name, fallback) => {
   return index >= 0 && process.argv[index + 1] ? process.argv[index + 1] : fallback;
 };
 
-const fmsDir = argOf('--fms-dir', 'D:\\BANANA!! Assets');
+const fmsDir = argOf('--fms-dir', '');
 const outDir = argOf('--out', join(tmpdir(), 'famistudio-mcp-verify'));
 
 let failures = 0;
@@ -99,12 +101,15 @@ try {
 }
 
 /* -------------------------------------------------------------------------- */
-section(`2. Real-file round trip (${fmsDir})`);
+section('2. Real-file round trip');
 /* -------------------------------------------------------------------------- */
 
-if (!existsSync(fmsDir)) {
+if (!fmsDir) {
+  console.log('  - skipped: pass --fms-dir <dir> to round-trip your own version-19 projects');
+} else if (!existsSync(fmsDir)) {
   fail(`sample directory not found: ${fmsDir} (pass --fms-dir)`);
 } else {
+  console.log(`  - directory: ${fmsDir}`);
   const files = (await readdir(fmsDir)).filter((name) => extname(name).toLowerCase() === '.fms');
   if (files.length === 0) fail(`no .fms files in ${fmsDir}`);
 
