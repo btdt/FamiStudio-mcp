@@ -196,6 +196,20 @@ export function valueToFrequency(value: number, tuning = 440): number {
 }
 
 /**
+ * Round a cent offset, collapsing `-0` to `0`.
+ *
+ * `Math.round` returns `-0` for a small negative residual, and `-0` is *not* `0`
+ * under `Object.is` - so it fails strict comparisons and leaks a surprising value
+ * out of the public API. Whether the residual lands at `-0` or `+0` depends on
+ * the last bit of `Math.log2`, which varies between platforms: an exact note must
+ * report plain `0` everywhere.
+ */
+function roundCents(value: number): number {
+  const rounded = Math.round(value);
+  return rounded === 0 ? 0 : rounded;
+}
+
+/**
  * Convert a frequency to the FamiStudio-spelled note name plus cent offset.
  *
  * This is the exact inverse of {@link noteNameToValue} for the frequencies
@@ -209,7 +223,7 @@ export function frequencyToNote(frequency: number): { note: string; cents: numbe
   if (frequency <= 0) return { note: '', cents: 0 };
   const exactValue = REFERENCE_VALUE + 12 * Math.log2(frequency / REFERENCE_FREQUENCY);
   const nearest = Math.round(exactValue);
-  const cents = Math.round((exactValue - nearest) * 100);
+  const cents = roundCents((exactValue - nearest) * 100);
   const octave = Math.floor((nearest - 1) / 12);
   const semitone = (((nearest - 1) % 12) + 12) % 12;
   return { note: `${NOTE_NAMES[semitone]}${octave}`, cents };
@@ -395,7 +409,7 @@ export function detectPitches(
         total;
       previous.endFrame = segment.endFrame;
       previous.endSeconds = segment.endSeconds;
-      previous.cents = Math.round(
+      previous.cents = roundCents(
         (previous.cents * (total - (segment.endFrame - segment.startFrame)) +
           segment.cents * (segment.endFrame - segment.startFrame)) /
           total,

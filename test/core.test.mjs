@@ -54,6 +54,22 @@ test('note names follow FamiStudio numbering', () => {
   }
 });
 
+test('an exact note reports +0 cents, never -0', () => {
+  // `Math.round` of a tiny negative residual returns -0, and `assert.strictEqual`
+  // uses Object.is, which treats -0 and 0 as different. Whether that residual
+  // lands below or above zero depends on the last bit of Math.log2, which differs
+  // between platforms - Linux reported -0 for F#2 where Windows reported +0. Pin
+  // the normalisation on both sides of zero so it cannot regress silently.
+  for (const name of ['F#2', 'C4', 'A3', 'B7']) {
+    const exact = core.valueToFrequency(core.noteNameToValue(name));
+    for (const frequency of [exact, exact * (1 - 1e-12), exact * (1 + 1e-12)]) {
+      const { note, cents } = core.frequencyToNote(frequency);
+      assert.equal(note, name, `${name} at ${frequency} Hz`);
+      assert.ok(Object.is(cents, 0), `${name} must report +0 cents, got ${cents}`);
+    }
+  }
+});
+
 test('channel aliases resolve', () => {
   assert.equal(core.resolveChannelType('Square1'), 0);
   assert.equal(core.resolveChannelType('sq1'), 0);

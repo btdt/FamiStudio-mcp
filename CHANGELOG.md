@@ -36,6 +36,12 @@ This project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- `frequencyToNote` returned `-0` for an exactly-tuned note whose `Math.log2`
+  residual landed just below zero. `-0` is not `0` under `Object.is`, so it broke
+  strict comparisons and leaked a surprising value from the public API. It surfaced
+  as a Linux-only CI failure ("F#2 should be exact") because Windows happened to
+  compute `+0`. Cent offsets and the averaged cents in `detectPitches` are now
+  normalised.
 - `npm run verify`'s documented `--fms-dir` default and the package-manager guidance now
   match what the project actually does (bun, with `bun.lock`).
 
