@@ -93,4 +93,5 @@ to FamiStudio; they are the reason the format notes are so explicit:
 - Grid-mode chord cells share one inferred duration, and bare numeric cells are accepted
   as raw note values with range checking.
 
-[0.1.0]: https://github.com/btdt/famistudio-mcp/releases/tag/v0.1.0
+[0.1.0]: https://github.com/btdt/FamiStudio-mcp/releases/tag/v0.1.0
+[Unreleased]: https://github.com/btdt/FamiStudio-mcp/compare/v0.1.0...HEAD

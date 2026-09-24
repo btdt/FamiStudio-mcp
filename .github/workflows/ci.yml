@@ -11,17 +11,20 @@ jobs:
     name: build, typecheck and test
     runs-on: ubuntu-latest
     strategy:
+      # Report every Node version even if one fails; a single-version failure is
+      # much easier to read when the other two still run.
+      fail-fast: false
       matrix:
         # The published bundle targets Node 18+.
         node: ['18', '20', '22']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
 
@@ -57,7 +60,7 @@ jobs:
     name: package contents
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
       - name: Verify the tarball ships what it should

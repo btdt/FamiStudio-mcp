@@ -4,6 +4,14 @@
   "description": "Model Context Protocol server for FamiStudio: generate, inspect, validate and export NES .fms projects from plain JSON.",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/btdt/FamiStudio-mcp.git"
+  },
+  "homepage": "https://github.com/btdt/FamiStudio-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/btdt/FamiStudio-mcp/issues"
+  },
   "bin": {
     "famistudio-mcp": "dist/index.js",
     "famistudio-mcp-cli": "dist/cli.js"

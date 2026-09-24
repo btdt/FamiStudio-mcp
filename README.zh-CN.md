@@ -264,6 +264,8 @@ FamiStudio 的音名比标准音高**高一个八度**：它的 `"C4"` 发声在
   面向编码 agent 与贡献者。
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) —— 如何参与贡献。
 - [`CHANGELOG.md`](CHANGELOG.md) —— 版本历史。
+- [github.com/btdt/FamiStudio-mcp](https://github.com/btdt/FamiStudio-mcp) —— 源码、
+  issue 与 release。
 
 ---
 

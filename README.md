@@ -274,6 +274,8 @@ validating and diffing projects works without it.
   format invariants that must not be broken. For coding agents and contributors.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — how to contribute.
 - [`CHANGELOG.md`](CHANGELOG.md) — release history.
+- [github.com/btdt/FamiStudio-mcp](https://github.com/btdt/FamiStudio-mcp) — source,
+  issues and releases.
 
 ---
 

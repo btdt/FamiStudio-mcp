@@ -13,7 +13,7 @@ human contribution process. Where the two overlap, AGENTS.md wins.
 `bun install --frozen-lockfile`. Do not commit a `package-lock.json`.
 
 ```bash
-git clone <this repo> && cd FamiStudio-mcp
+git clone https://github.com/btdt/FamiStudio-mcp.git && cd FamiStudio-mcp
 bun install          # bun.lock; the npm run <script> calls below work afterwards
 npm run build        # esbuild bundle -> dist/
 npm run typecheck

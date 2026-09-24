@@ -74,7 +74,7 @@ genuinely required by end users installing the published tarball.
 | `bun install` | Install dependencies (`bun.lock`; CI uses `--frozen-lockfile`). |
 | `npm run typecheck` | `tsc --noEmit`. Fast; run it first. |
 | `npm run build` | esbuild bundle -> `dist/`. **Required before `npm test`.** |
-| `npm test` | `node --test test/**/*.test.mjs` — 47 tests, no FamiStudio required. |
+| `npm test` | `node --test "test/**/*.test.mjs"` — 48 tests, no FamiStudio required. |
 | `npm run build:types` | Emit `.d.ts` declarations alongside `dist/`. |
 | `npm run verify` | End-to-end: compile a spec, payload-round-trip real `.fms` files, then drive FamiStudio text + WAV export. |
 | `npm run oracle` | Payload-identical round trip over FamiStudio's own demo projects. |
@@ -304,5 +304,5 @@ round trip mismatches.
   `C:\Program Files\FamiStudio\FamiStudio.exe` and is auto-discovered; `FAMISTUDIO_EXE`
   is normally unset.
 - Verified with Node 24.20.0 and bun 1.4.2; the published bundle targets Node >= 18.
-- `git log` is empty: the repository has no commits yet, and the working tree is fully
-  staged on branch `main`.
+- Remote: `https://github.com/btdt/FamiStudio-mcp`, default branch `main`. CI
+  (`.github/workflows/ci.yml`) runs on every push and pull request across Node 18/20/22.
