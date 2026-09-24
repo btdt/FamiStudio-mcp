@@ -44,6 +44,10 @@ This project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   normalised.
 - `npm run verify`'s documented `--fms-dir` default and the package-manager guidance now
   match what the project actually does (bun, with `bun.lock`).
+- `npm test` passed a glob pattern to `node --test`, which only understands globs from
+  Node 21. The Node 18 and Node 20 CI jobs therefore failed with
+  `Could not find '.../test/**/*.test.mjs'` before running a single test. The script now
+  uses bare `node --test`, which discovers the files itself on every supported version.
 
 ## [0.1.0] - 2025-09-24
 

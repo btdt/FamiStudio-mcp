@@ -46,12 +46,12 @@
     "build": "node scripts/build.mjs",
     "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --test \"test/**/*.test.mjs\"",
+    "test": "node --test",
     "verify": "node scripts/verify.mjs",
     "oracle": "node scripts/oracle.mjs",
     "pitch": "node scripts/pitch-probe.mjs",
     "prepare": "node scripts/build.mjs",
-    "prepublishOnly": "node scripts/build.mjs && node --test \"test/**/*.test.mjs\" && node scripts/verify.mjs"
+    "prepublishOnly": "node scripts/build.mjs && node --test && node scripts/verify.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.1",

@@ -74,7 +74,7 @@ genuinely required by end users installing the published tarball.
 | `bun install` | Install dependencies (`bun.lock`; CI uses `--frozen-lockfile`). |
 | `npm run typecheck` | `tsc --noEmit`. Fast; run it first. |
 | `npm run build` | esbuild bundle -> `dist/`. **Required before `npm test`.** |
-| `npm test` | `node --test "test/**/*.test.mjs"` — 48 tests, no FamiStudio required. |
+| `npm test` | `node --test` — 48 tests, no FamiStudio required. |
 | `npm run build:types` | Emit `.d.ts` declarations alongside `dist/`. |
 | `npm run verify` | End-to-end: compile a spec, payload-round-trip real `.fms` files, then drive FamiStudio text + WAV export. |
 | `npm run oracle` | Payload-identical round trip over FamiStudio's own demo projects. |
@@ -112,6 +112,13 @@ npm run oracle -- --dir "<dir>" --limit 50
   it at the stock demo folder reports ~30 failures even though the codec is fine — only
   `Mega Man 2.fms` there is version 19. Point it at your own re-saved projects, or use
   `npm run oracle` for the demo folder.
+- **Never put a glob in the `test` script.** `node --test` only understands glob patterns
+  from **Node 21**; CI covers 18/20/22, so `node --test "test/**/*.test.mjs"` dies on the
+  two older jobs with `Could not find '.../test/**/*.test.mjs'` before running a single
+  test. Bare `node --test` is the portable form: Node discovers test files itself, skipping
+  `node_modules` and treating **every** `.js`/`.cjs`/`.mjs` under a `test/` directory as a
+  test file. Passing a directory (`node --test test/`) does *not* work either — Node tries
+  to load it as a module.
 - `npm run pitch` and the FamiStudio half of `npm test` need a real FamiStudio
   install; set `FAMISTUDIO_EXE` if auto-discovery misses it. The FamiStudio-free
   core tests still pass without it.
